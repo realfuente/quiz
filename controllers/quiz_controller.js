@@ -1,5 +1,14 @@
 var models = require('../models/models.js');
 
+
+function replaceAll( text, busca, reemplaza ){
+  while (text.toString().indexOf(busca) != -1)
+  text = text.toString().replace(busca,reemplaza);
+  return text;
+
+}
+
+
 // Autoload - factoriza el código si ruta incluye :quizId
 exports.load = function(req, res, next, quizId) {
   models.Quiz.find(quizId).then(
@@ -14,12 +23,21 @@ exports.load = function(req, res, next, quizId) {
 
 // GET /quizes
 exports.index = function(req, res) {
-  models.Quiz.findAll().then(
-    function(quizes) {
-      res.render('quizes/index', { quizes: quizes});
-    }
-  ).catch(function(error) { next(error);})
+	
+	var resultado=req.query.search;
+	if (resultado){
+	resultado=replaceAll(resultado,' ','%');
+	}
+
+	models.Quiz.findAll(resultado ? {where: ["pregunta like ?", '%' + resultado + '%'], order: 'pregunta ASC'} : {}).then(
+		function(quizes) {
+			res.render('quizes/index', {quizes: quizes});
+		}
+	).catch(function(error) {next(error);});
 };
+
+
+
 
 // GET /quizes/:id
 exports.show = function(req, res) {
