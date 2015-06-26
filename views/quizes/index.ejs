@@ -2,10 +2,14 @@
 <% if ( quizes.length === 0 ) { %>
 	 <tr><td>No hay resultados</td></tr>
 <% } else {
-	var i;
-	for (i=0; i < quizes.length; i++) {
+	var i; %>
+	<th>Tema</th>
+	<th>Pregunta</th>
+	
+<%	for (i=0; i < quizes.length; i++) {
 %> 	
    <tr>
+   <td><%= quizes[i].tema %></td>
    <td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
    <td><a href="quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
       <td>
@@ -19,7 +23,7 @@
 <% } } %>
 </table><p>
 <div id="botoncrear"><a href="/quizes/new"><button type="button">Crear pregunta</button></a></div>
-<form method="get" action="">
+<form id="buscadorpreguntas" method="get" action="">
 			Buscador de Preguntas:
 			<input type="text" name="search" value="Escriba la pregunta"/>
 			<input type="submit" value="Buscar">
