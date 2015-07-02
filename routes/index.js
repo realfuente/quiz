@@ -3,6 +3,7 @@ var router = express.Router();
 var quizController = require ('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var sessionController = require('../controllers/session_controller');
+var estadisticasController = require('../controllers/estadisticas_controller');
 
 // Página de entrada (home page)
 router.get('/',sessionController.autologout, function(req, res) {
@@ -30,6 +31,7 @@ router.delete('/quizes/:quizId(\\d+)',     sessionController.loginRequired,sessi
 router.get('/quizes/:quizId(\\d+)/comments/new',sessionController.autologout,commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments',sessionController.autologout,commentController.create);
 router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish',sessionController.autologout,sessionController.loginRequired,commentController.publish);
+router.get('/quizes/statistics', sessionController.autologout, estadisticasController.estadisticas);
 
 router.get('/author',sessionController.autologout, function(req, res){
 	res.render('author', {errors: []})
